@@ -1,9 +1,7 @@
+import { Router } from "./router";
+
 const App = () => {
-  return (
-    <div>
-      <span>Hello, Rainfew-management-system</span>
-    </div>
-  );
+  return <Router />;
 };
 
 export default App;
