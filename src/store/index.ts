@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import userReducer from "./features/user";
+import systemReducer from "./features/system";
 
 const store = configureStore({
   reducer: {
     user: userReducer,
+    system: systemReducer,
   },
 });
 

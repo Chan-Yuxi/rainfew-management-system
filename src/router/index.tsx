@@ -1,4 +1,7 @@
 import { Navigate, useRoutes } from "react-router-dom";
+import store from "@/store";
+import systemUtils from "@/utils/system";
+
 import type { RouteObject } from "react-router-dom";
 
 import Login from "@/pages/Login";
@@ -20,5 +23,8 @@ const routes: RouteObject[] = [
 ];
 
 export const Router = () => {
-  return useRoutes(routes);
+  return useRoutes([
+    ...routes,
+    ...systemUtils.mapRoutes(store.getState().system.dynamicRoutes),
+  ]);
 };
