@@ -1,0 +1,44 @@
+[
+  {
+    "path": "/home",
+    "label": "Home",
+    "key": "home",
+    "elementPath": "Home/index"
+  },
+  {
+    "path": "/setting",
+    "label": "Setting",
+    "children": [
+      {
+        "type": "group",
+        "label": "mine",
+        "children": [
+          {
+            "path": "profile",
+            "label": "profile",
+            "key": "profile",
+            "elementPath": "Setting/components/profile"
+          },
+          {
+            "path": "account",
+            "label": "account",
+            "key": "account",
+            "elementPath": "Setting/components/account"
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "label": "other",
+        "children": [
+          {
+            "path": "system",
+            "label": "system",
+            "key": "system",
+            "elementPath": "Setting/components/system"
+          }
+        ]
+      }
+    ]
+  }
+]

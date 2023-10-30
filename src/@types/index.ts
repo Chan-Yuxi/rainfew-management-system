@@ -19,3 +19,11 @@ export interface RouteOption {
   elementPath: string;
   children?: RouteOption[];
 }
+
+export interface MenuOption extends RouteOption {
+  label: string;
+  key: string;
+  disable: boolean;
+  type?: string;
+  children?: MenuOption[];
+}

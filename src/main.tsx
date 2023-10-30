@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import "@/i18n";
 
 import "reset-css";
+import "@/index.css";
 import "@/assets/styles/global.scss";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

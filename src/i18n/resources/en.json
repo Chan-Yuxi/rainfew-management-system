@@ -1,5 +1,11 @@
 {
   "translation": {
-    "home.welcome": "welcome use Rainfew-management-system"
+    "system.project": "Rainfew Management System",
+
+    "home.welcome": "welcome use Rainfew-management-system",
+
+    "error.resolve.tip_1": "if there is only a path, then children are required to exist",
+    "error.resolve.tip_2": "cannot have only elementPath without path",
+    "error.resolve.tip_3": "if elementPath and path are not provided, then children are required"
   }
 }

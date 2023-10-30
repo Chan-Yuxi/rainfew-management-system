@@ -7,6 +7,9 @@ import {
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 
+import Logo from "./components/Logo";
+import { Outlet } from "react-router-dom";
+
 const { Header, Content, Sider } = Layout;
 
 const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
@@ -42,9 +45,9 @@ const RainfewLayout: React.FC = () => {
   } = theme.useToken();
 
   return (
-    <Layout>
-      <Header style={{ display: "flex", alignItems: "center" }}>
-        <div className="logo" />
+    <Layout className="h-screen">
+      <Header className="flex">
+        <Logo />
         <Menu
           theme="dark"
           mode="horizontal"
@@ -76,7 +79,8 @@ const RainfewLayout: React.FC = () => {
               background: colorBgContainer,
             }}
           >
-            Content
+            {/* entry to pages */}
+            <Outlet />
           </Content>
         </Layout>
       </Layout>
