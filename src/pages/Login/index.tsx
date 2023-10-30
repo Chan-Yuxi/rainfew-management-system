@@ -19,6 +19,7 @@ const Login = () => {
   return (
     <div>
       <div>
+        <div className="text-white bg-sky-600">Tailwind has imported</div>
         <input type="text" />
         <input type="password" />
       </div>

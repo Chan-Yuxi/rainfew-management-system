@@ -4,7 +4,7 @@ import Guard from "@/components/Guard";
 
 import { lazy, ComponentType } from "react";
 
-const modules = import.meta.glob<boolean, string, { default: ComponentType<unknown> }>("../pages/**/*.tsx");
+const modules = import.meta.glob<boolean, string, { default: ComponentType<unknown> }>("/src/pages/**/*.tsx");
 
 function mapRoutes(routes?: RouteOption[]): RouteObject[] {
   return routes === undefined
@@ -16,8 +16,7 @@ function mapRoutes(routes?: RouteOption[]): RouteObject[] {
 }
 
 function lazyLoad(path: string) {
-  console.log('import :', `../pages/${path}.tsx`);
-  const Component = lazy(modules[`../pages/${path}.tsx`]);
+  const Component = lazy(modules[`/src/pages/${path}.tsx`]);
   return (
     <Guard>
       <Component />
