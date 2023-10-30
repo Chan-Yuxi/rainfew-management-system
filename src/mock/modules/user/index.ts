@@ -2,10 +2,9 @@ import { MockMethod } from "vite-plugin-mock";
 
 export default [
   {
-    url: "api/login",
+    url: "/api/login",
     method: "post",
-    response: ({ body }) => {
-      console.log(body);
+    response: () => {
       return {
         code: 200,
         message: "ok",

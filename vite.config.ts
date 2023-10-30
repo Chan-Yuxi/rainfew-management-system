@@ -10,8 +10,13 @@ export default (): UserConfig => {
     plugins: [
       react(),
       viteMockServe({
-        mockPath: "./src/mock",
-        enable: true,
+        ignore: /^_/,
+        mockPath: "src/mock",
+        injectFile: "src/main.tsx",
+        injectCode: `
+            import { setupProdMockServer } from './mock';
+            setupProdMockServer();
+        `,
       }),
     ],
     resolve: {
