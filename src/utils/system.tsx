@@ -1,17 +1,18 @@
-import type { RouteObject } from "react-router-dom";
-import type { MenuOption, RouteOption } from "@/@types";
+import { RouteObject } from "react-router-dom";
+import { MenuOption, RouteOption } from "@/@types";
 import Guard from "@/components/Guard";
 
 import { lazy, ComponentType } from "react";
 
 const modules = import.meta.glob<boolean, string, { default: ComponentType<unknown> }>("/src/pages/**/*.tsx");
 
-function mapRoutes(routes?: RouteOption[]): RouteObject[] {
+function loadRoutes(routes?: RouteOption[]): RouteObject[] {
   return routes === undefined
     ? []
     : routes.map<RouteObject>((route) => ({
-        ...route,
+        path: route.path,
         element: lazyLoad(route.elementPath),
+        children: loadRoutes(route.children),
       }));
 }
 
@@ -24,7 +25,7 @@ function lazyLoad(path: string) {
   );
 }
 
-function extractMenuOptions(menusOptions: MenuOption[], prefix = "") {
+function extractDynamicRoutesFrom(menusOptions: MenuOption[], prefix = "") {
   const routes: RouteOption[] = [];
   menusOptions.forEach((option) => {
     if (option.path && option.elementPath) {
@@ -33,18 +34,18 @@ function extractMenuOptions(menusOptions: MenuOption[], prefix = "") {
       route.path = prefix + option.path;
       route.elementPath = option.elementPath;
       if (option.children) {
-        route.children = extractMenuOptions(option.children);
+        route.children = extractDynamicRoutesFrom(option.children);
       }
       routes.push(route as RouteOption);
-
     } else if (option.path) {
       if (option.children) {
-        routes.push(...extractMenuOptions(option.children, prefix + option.path));
+        routes.push(
+          ...extractDynamicRoutesFrom(option.children, prefix + option.path)
+        );
       }
-      
     } else if (!option.elementPath) {
       if (option.children) {
-        routes.push(...extractMenuOptions(option.children));
+        routes.push(...extractDynamicRoutesFrom(option.children));
       }
     }
   });
@@ -52,7 +53,7 @@ function extractMenuOptions(menusOptions: MenuOption[], prefix = "") {
 }
 
 export default {
-  mapRoutes,
+  loadRoutes,
   lazyLoad,
-  extractMenuOptions,
+  extractDynamicRoutesFrom,
 };

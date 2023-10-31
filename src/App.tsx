@@ -1,36 +1,16 @@
-import { useEffect } from "react";
 import { connect } from "react-redux";
-
-import { Router } from "@/router";
 import { RootState } from "@/store";
-import { setMenus } from "@/store/features/system";
-import { getMenus } from "@/api/system";
-import { MenuOption } from "./@types";
+import { Router } from "@/router";
 
-type MapStateProps = {
-  auth: boolean;
-};
-type DispatchProps = {
-  setMenus: (menus: MenuOption[]) => void;
+type P = {
+  menu: RootState["system"]["menu"];
 };
 
-const App: React.FC<MapStateProps & DispatchProps> = (props) => {
-  const { auth, setMenus } = props;
-
-  useEffect(() => {
-    getMenus().then((res: any) => setMenus(res as MenuOption[]));
-  }, [auth, setMenus]);
-
-  return <Router />;
+const App: React.FC<P> = ({ menu }) => {
+  console.log('rerender', menu)
+  return <Router menu={menu}/>;
 };
 
-const mapStateToProps = (state: RootState) => {
-  return {
-    auth: state.system.auth,
-  };
-};
-const mapDispatchToProps = {
-  setMenus,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect((state: RootState) => ({
+  menu: state.system.menu,
+}))(App);

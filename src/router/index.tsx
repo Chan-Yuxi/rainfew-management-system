@@ -1,26 +1,39 @@
-import { useRoutes } from "react-router-dom";
+import { useRoutes, RouteObject } from "react-router-dom";
 import store from "@/store";
+
 import systemUtils from "@/utils/system";
-
-import type { RouteObject } from "react-router-dom";
-
 import Layout from "@/layouts";
 import Login from "@/pages/Login";
+import { MenuOption } from "@/@types";
 
-const routes: RouteObject[] = [
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/",
-    element: <Layout />,
-  },
-];
+// const routes: RouteObject[] = [
+//   {
+//     path: "/login",
+//     element: <Login />,
+//   },
+//   {
+//     path: "/",
+//     element: <Layout />,
+//     children: systemUtils.loadRoutes(
+//       systemUtils.extractDynamicRoutesFrom(store.getState().system.menus)
+//     ),
+//   },
+// ];
 
-export const Router = () => {
+// console.log(routes);
+
+export const Router = ({ menu }) => {
   return useRoutes([
-    ...routes,
-    ...systemUtils.mapRoutes(store.getState().system.dynamicRoutes),
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/",
+      element: <Layout />,
+      children: systemUtils.loadRoutes(
+        systemUtils.extractDynamicRoutesFrom(menu as MenuOption[])
+      ),
+    },
   ]);
 };

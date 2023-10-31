@@ -10,8 +10,7 @@ export interface UserState {
 
 export interface SystemState {
   auth: boolean;
-  menus: MenuOption[];
-  dynamicRoutes: RouteOption[];
+  menu: MenuOption[];
 }
 
 // Router Types

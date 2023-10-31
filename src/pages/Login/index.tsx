@@ -1,30 +1,26 @@
-import type { LoginField, UserState } from "@/@types";
 import { Card, Form, Input, Button } from "antd";
-
 import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
-import Storage from "@/utils/storage";
+import { LoginField, UserState } from "@/@types";
 import { login } from "@/api/user";
 import { updateUser } from "@/store/features/user";
-import { setAuth } from "@/store/features/system";
+import { logged, fetchMenu } from "@/store/features/system";
 
 type MapDispatchProps = {
   updateUser: (user: UserState) => void;
-  setAuth: (auth: boolean) => void;
+  logged: () => void;
+  fetchMenu: () => void;
 };
 
 const Login: React.FC<MapDispatchProps> = (props) => {
-  const { updateUser, setAuth } = props;
-  const navigate = useNavigate();
+  const { updateUser, logged, fetchMenu } = props;
 
   const handleLogin = (values: LoginField) => {
     login(values).then((res: any) => {
       if (res) {
-        Storage.set("TOKEN", res.token as string);
         updateUser(res as UserState);
-        setAuth(true);
-        navigate("/");
+        logged();
+        fetchMenu();
       }
     });
   };
@@ -48,4 +44,4 @@ const Login: React.FC<MapDispatchProps> = (props) => {
   );
 };
 
-export default connect(null, { updateUser, setAuth })(Login);
+export default connect(null, { updateUser, logged, fetchMenu })(Login);
