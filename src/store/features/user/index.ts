@@ -14,11 +14,11 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUsername: (state, { payload }: PayloadAction<string>) => {
-      state.username = payload;
+    updateUser: (state, { payload }: PayloadAction<UserState>) => {
+      Object.assign(state, payload);
     },
   },
 });
 
-export const { setUsername } = userSlice.actions;
+export const { updateUser } = userSlice.actions;
 export default userSlice.reducer;

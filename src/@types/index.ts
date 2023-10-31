@@ -10,6 +10,7 @@ export interface UserState {
 
 export interface SystemState {
   auth: boolean;
+  menus: MenuOption[];
   dynamicRoutes: RouteOption[];
 }
 
@@ -56,3 +57,9 @@ export interface CreateOptions extends AxiosRequestConfig {
   timeout?: number;
   withCredentials?: boolean;
 }
+
+// DTO
+export type LoginField = {
+  username?: string;
+  password?: string;
+};
