@@ -7,9 +7,12 @@ export default [
     response: () => {
       return {
         code: 200,
-        message: "ok",
+        message: "success",
         data: {
-          token: "08ef569828a37703b7797c574cc097af195e0941",
+          username: "admin",
+          nickname: "admin",
+          token: "hello-mock-fake-token",
+          permissions: ["user:add", "user:delete"],
         },
       };
     },

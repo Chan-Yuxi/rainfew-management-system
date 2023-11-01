@@ -10,7 +10,7 @@ export interface UserState {
 
 export interface SystemState {
   auth: boolean;
-  dynamicRoutes: RouteOption[];
+  menu: MenuOption[];
 }
 
 // Router Types
@@ -56,3 +56,9 @@ export interface CreateOptions extends AxiosRequestConfig {
   timeout?: number;
   withCredentials?: boolean;
 }
+
+// DTO
+export type LoginField = {
+  username?: string;
+  password?: string;
+};

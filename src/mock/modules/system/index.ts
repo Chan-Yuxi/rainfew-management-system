@@ -8,7 +8,7 @@ export default [
     response: () => {
       return {
         code: 200,
-        message: "ok",
+        message: "success",
         data: menuDefaultResponse,
       };
     },

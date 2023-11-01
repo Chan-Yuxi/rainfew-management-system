@@ -1,31 +1,45 @@
-import { useDispatch } from "react-redux";
-import { setAuth, setDynamicRoutes } from "@/store/features/system";
+import { Card, Form, Input, Button } from "antd";
+import { connect } from "react-redux";
 
-const Login = () => {
-  const dispatch = useDispatch();
-  const handleSubmit = function () {
-    dispatch(
-      setDynamicRoutes([
-        {
-          path: "/test",
-          elementPath: "TestDynamicRoute/index",
-          children: [],
-        },
-      ])
-    );
-    dispatch(setAuth(true));
+import { LoginField, UserState } from "@/@types";
+import { login } from "@/api/user";
+import { updateUser } from "@/store/features/user";
+import { logged } from "@/store/features/system";
+
+type MapDispatchProps = {
+  updateUser: (user: UserState) => void;
+  logged: () => void;
+};
+
+const Login: React.FC<MapDispatchProps> = (props) => {
+  const { updateUser, logged } = props;
+
+  const handleLogin = (values: LoginField) => {
+    login(values).then((res: any) => {
+      if (res) {
+        updateUser(res as UserState);
+        logged();
+      }
+    });
   };
 
   return (
-    <div>
-      <div>
-        <div className="text-white bg-sky-600">Tailwind has imported</div>
-        <input type="text" />
-        <input type="password" />
-      </div>
-      <button onClick={handleSubmit}>submit</button>
+    <div className="h-screen flex justify-center items-center bg-stone-100 relative">
+      <Card title="Login">
+        <Form onFinish={handleLogin}>
+          <Form.Item<LoginField> name="username">
+            <Input placeholder="type username" />
+          </Form.Item>
+          <Form.Item<LoginField> name="password">
+            <Input.Password placeholder="type password" />
+          </Form.Item>
+          <Button htmlType="submit" block>
+            Submit
+          </Button>
+        </Form>
+      </Card>
     </div>
   );
 };
 
-export default Login;
+export default connect(null, { updateUser, logged })(Login);
