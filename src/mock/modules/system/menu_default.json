@@ -2,8 +2,7 @@
   {
     "path": "/home",
     "label": "Home",
-    "key": "home",
-    "elementPath": "Home/index"
+    "key": "home"
   },
   {
     "path": "/setting",
@@ -20,7 +19,7 @@
             "elementPath": "Setting/components/profile"
           },
           {
-            "path": "account",
+            "path": "/account",
             "label": "account",
             "key": "account",
             "elementPath": "Setting/components/account"

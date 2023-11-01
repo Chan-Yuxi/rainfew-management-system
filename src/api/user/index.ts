@@ -1,9 +1,9 @@
 import http from "@/utils/http";
 
-import { LoginField } from "@/@types";
+import { LoginField, UserState } from "@/@types";
 
 export function login(data: LoginField) {
-  return http.request({
+  return http.request<UserState>({
     url: "/login",
     method: "post",
     data: data,

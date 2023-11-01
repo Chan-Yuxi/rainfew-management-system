@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-
 import { requestBefore, responseSuccess, responseFailure } from "./optimized";
 import { RequestConfig, Result } from "@/@types";
 
@@ -10,13 +9,13 @@ class Request {
     this.instance.interceptors.request.use(requestBefore);
   }
 
-  request(config: RequestConfig): Promise<Result["data"] | undefined> {
+  request<T = Result["data"]>(config: RequestConfig): Promise<T | undefined> {
     return new Promise((resolve, reject) => {
       this.instance
         .request<Result>(config)
         .then((response) => {
           if (responseSuccess) {
-            const result = responseSuccess(response);
+            const result = responseSuccess<T>(response);
             result === "error" ? resolve(undefined) : resolve(result);
             return;
           }

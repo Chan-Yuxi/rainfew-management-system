@@ -21,11 +21,11 @@ export function requestBefore(request: InternalAxiosRequestConfig) {
  * @param res response of axios
  * @returns result
  */
-export function responseSuccess( res: AxiosResponse<Result>): Result["data"] | "error" {
+export function responseSuccess<T>(res: AxiosResponse<Result>): T | "error" {
   const { code, message, data } = res.data;
   switch (code) {
     case HttpCode.SUCCESS:
-      return data;
+      return <T>data;
     case HttpCode.ERROR:
       console.log("request error", code, message);
   }
@@ -37,7 +37,7 @@ export function responseSuccess( res: AxiosResponse<Result>): Result["data"] | "
  * HTTP protocol is not 200. Therefore, we will respond based on the status
  * code or use the Antd messaging system to notify the user. Afterwards, we
  * reject this promise method
- * 
+ *
  * @param err error
  * @returns error
  */
