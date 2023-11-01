@@ -6,3 +6,4 @@ One year into the front end of the industry, I feel like I can't finish learning
 - Dynamic routing
 - Permission control
 - Mock
+- Scalable
