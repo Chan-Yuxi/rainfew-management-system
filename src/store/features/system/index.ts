@@ -1,14 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { SystemState, MenuOption } from "@/@types";
+import { SystemState } from "@/@types";
+
 import { getMenus } from "@/api/system";
+import { extractDynamicRoutes } from "@/utils/system";
 
 export const logged = createAsyncThunk("system/logged", async () => {
-  return await (<Promise<MenuOption[]>>getMenus());
+  const menu = await getMenus();
+  return {
+    dynamicRoutes: extractDynamicRoutes(menu),
+    menu,
+  };
 });
 
 const initialState: SystemState = {
   auth: false,
   menu: [],
+  dynamicRoutes: [],
 };
 
 const systemSlice = createSlice({
@@ -16,14 +23,21 @@ const systemSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state.auth = !1;
+      state.menu.length = 0;
+      state.dynamicRoutes.length = 0;
+      state.auth = false;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(logged.fulfilled, (state, { payload }) => {
-      state.menu.length = 0;
-      state.menu.push(...payload);
-      state.auth = !0;
+      const { menu, dynamicRoutes } = payload;
+      if (menu) {
+        state.menu.length = 0;
+        state.dynamicRoutes.length = 0;
+        state.menu.push(...menu);
+        state.dynamicRoutes.push(...dynamicRoutes);
+        state.auth = true;
+      }
     });
   },
 });

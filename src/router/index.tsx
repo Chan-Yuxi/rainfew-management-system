@@ -1,24 +1,33 @@
-import { useRoutes, RouteObject } from "react-router-dom";
-import store from "@/store";
+import { useRoutes } from "react-router-dom";
+import { connect } from "react-redux";
 
-import systemUtils from "@/utils/system";
-import Layout from "@/layouts";
+import { RootState } from "@/store";
+import { RouteOption } from "@/@types";
 import Login from "@/pages/Login";
 
-const routes: RouteObject[] = [
+const staticRoutes: RouteOption[] = [
   {
     path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/",
-    element: <Layout />,
-    children: systemUtils.loadRoutes(
-      systemUtils.extractDynamicRoutesFrom(store.getState().system.menu)
-    ),
+    elementPath: "Login/index",
   },
 ];
 
-export const Router = () => {
-  return useRoutes(routes);
+const mapStateToProps = (state: RootState) => ({
+  dynamicRoutes: state.system.dynamicRoutes,
+});
+
+type P = {
+  dynamicRoutes: RouteOption[];
 };
+
+const Router: React.FC<P> = ({ dynamicRoutes }) => {
+  console.log("combine routes:", [...staticRoutes, ...dynamicRoutes]);
+  return useRoutes([
+    {
+      path: "/login",
+      element: <Login></Login>,
+    },
+  ]);
+};
+
+export default connect(mapStateToProps)(Router);

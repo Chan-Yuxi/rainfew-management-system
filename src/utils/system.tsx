@@ -1,59 +1,43 @@
-import { RouteObject } from "react-router-dom";
-import { MenuOption, RouteOption } from "@/@types";
-import Guard from "@/components/Guard";
+import { RouteOption, MenuOption } from "@/@types";
 
-import { lazy, ComponentType } from "react";
-
-const modules = import.meta.glob<boolean, string, { default: ComponentType<unknown> }>("/src/pages/**/*.tsx");
-
-function loadRoutes(routes?: RouteOption[]): RouteObject[] {
-  return routes === undefined
-    ? []
-    : routes.map<RouteObject>((route) => ({
-        path: route.path,
-        element: lazyLoad(route.elementPath),
-        children: loadRoutes(route.children),
-      }));
-}
-
-function lazyLoad(path: string) {
-  const Component = lazy(modules[`/src/pages/${path}.tsx`]);
-  return (
-    <Guard>
-      <Component />
-    </Guard>
-  );
-}
-
-function extractDynamicRoutesFrom(menusOptions: MenuOption[], prefix = "") {
+export function extractDynamicRoutes(menuOptions?: MenuOption[], prefix = "") {
   const routes: RouteOption[] = [];
-  menusOptions.forEach((option) => {
-    if (option.path && option.elementPath) {
-      // both path and elementPath exists, so consider it as a route
-      const route: Partial<RouteOption> = {};
-      route.path = prefix + option.path;
-      route.elementPath = option.elementPath;
-      if (option.children) {
-        route.children = extractDynamicRoutesFrom(option.children);
-      }
-      routes.push(route as RouteOption);
-    } else if (option.path) {
-      if (option.children) {
-        routes.push(
-          ...extractDynamicRoutesFrom(option.children, prefix + option.path)
+  menuOptions &&
+    menuOptions.forEach((option) => {
+      if (option.path && option.elementPath) {
+        // both path and elementPath exists, so consider it as a route
+        const { path, elementPath, children } = option;
+        // remove excess "/"
+        option.path = `${prefix}/${
+          path.startsWith("/") ? path.substring(1) : path
+        }`;
+
+        const route = {
+          path: option.path,
+          elementPath: elementPath,
+          children: extractDynamicRoutes(children),
+        };
+
+        // remove excess attributes
+        Reflect.deleteProperty(option, "elementPath");
+        if (route.children.length === 0) {
+          Reflect.deleteProperty(route, "children");
+        }
+        routes.push(route);
+      } else if (option.children) {
+        if (option.path) {
+          routes.push(
+            ...extractDynamicRoutes(option.children, prefix + option.path)
+          );
+          Reflect.deleteProperty(option, "path");
+        } else {
+          routes.push(...extractDynamicRoutes(option.children, prefix));
+        }
+      } else {
+        console.error(
+          "failed to parse menu configuration: if both path and elementPath attributes are not provided, then the attribute children is required"
         );
       }
-    } else if (!option.elementPath) {
-      if (option.children) {
-        routes.push(...extractDynamicRoutesFrom(option.children));
-      }
-    }
-  });
+    });
   return routes;
 }
-
-export default {
-  loadRoutes,
-  lazyLoad,
-  extractDynamicRoutesFrom,
-};
