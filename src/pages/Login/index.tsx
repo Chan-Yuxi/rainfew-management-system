@@ -4,23 +4,21 @@ import { connect } from "react-redux";
 import { LoginField, UserState } from "@/@types";
 import { login } from "@/api/user";
 import { updateUser } from "@/store/features/user";
-import { logged, fetchMenu } from "@/store/features/system";
+import { logged } from "@/store/features/system";
 
 type MapDispatchProps = {
   updateUser: (user: UserState) => void;
   logged: () => void;
-  fetchMenu: () => void;
 };
 
 const Login: React.FC<MapDispatchProps> = (props) => {
-  const { updateUser, logged, fetchMenu } = props;
+  const { updateUser, logged } = props;
 
   const handleLogin = (values: LoginField) => {
     login(values).then((res: any) => {
       if (res) {
         updateUser(res as UserState);
         logged();
-        fetchMenu();
       }
     });
   };
@@ -44,4 +42,4 @@ const Login: React.FC<MapDispatchProps> = (props) => {
   );
 };
 
-export default connect(null, { updateUser, logged, fetchMenu })(Login);
+export default connect(null, { updateUser, logged })(Login);
