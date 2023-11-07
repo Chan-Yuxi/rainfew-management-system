@@ -2,10 +2,13 @@
   {
     "path": "/home",
     "label": "Home",
-    "key": "home"
+    "key": "home",
+    "elementPath": "Home/index",
+    "children": [{}]
   },
   {
     "path": "/setting",
+    "key": "setting",
     "label": "Setting",
     "children": [
       {
@@ -16,15 +19,18 @@
             "path": "profile",
             "label": "profile",
             "key": "profile",
-            "elementPath": "Setting/components/profile"
+            "elementPath": "Setting/profile"
           },
           {
             "path": "/account",
             "label": "account",
             "key": "account",
-            "elementPath": "Setting/components/account"
+            "elementPath": "Setting/account"
           }
         ]
+      },
+      {
+        "type": "divider"
       },
       {
         "type": "group",
@@ -34,7 +40,7 @@
             "path": "system",
             "label": "system",
             "key": "system",
-            "elementPath": "Setting/components/system"
+            "elementPath": "Setting/system"
           }
         ]
       }

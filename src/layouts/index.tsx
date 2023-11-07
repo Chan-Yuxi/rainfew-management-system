@@ -1,84 +1,38 @@
 import React from "react";
-import {
-  LaptopOutlined,
-  NotificationOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
-
 import Logo from "./components/Logo";
-import { Outlet } from "react-router-dom";
+import { Layout, Menu, MenuProps } from "antd";
+import { connect } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
+
+import { RootState } from "@/store";
+import { MenuOption } from "@/@types";
 
 const { Header, Content, Sider } = Layout;
 
-const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
+const RainfewLayout: React.FC<P> = ({ menu }) => {
+  const navigate = useNavigate();
 
-const items2: MenuProps["items"] = [
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-].map((icon, index) => {
-  const key = String(index + 1);
-
-  return {
-    key: `sub${key}`,
-    icon: React.createElement(icon),
-    label: `subnav ${key}`,
-
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1;
-      return {
-        key: subKey,
-        label: `option${subKey}`,
-      };
-    }),
+  const handleMenuClick: MenuProps["onClick"] = (event) => {
+    const path = "/" + event.keyPath.reduceRight((p, c) => `${p}/${c}`);
+    navigate(path);
   };
-});
-
-const RainfewLayout: React.FC = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   return (
     <Layout className="h-screen">
       <Header className="flex">
         <Logo />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={["2"]}
-          items={items1}
-        />
       </Header>
       <Layout>
-        <Sider width={200} style={{ background: colorBgContainer }}>
+        <Sider width={250}>
           <Menu
+            onClick={handleMenuClick}
+            className="h-full bg-white"
             mode="inline"
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            style={{ height: "100%", borderRight: 0 }}
-            items={items2}
+            items={menu}
           />
         </Sider>
-        <Layout style={{ padding: "0 24px 24px" }}>
-          <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-              background: colorBgContainer,
-            }}
-          >
+        <Layout className="p-6">
+          <Content className="p-6 bg-white rounded">
             {/* entry to pages */}
             <Outlet />
           </Content>
@@ -88,4 +42,11 @@ const RainfewLayout: React.FC = () => {
   );
 };
 
-export default RainfewLayout;
+const mapStateToProp = (state: RootState) => ({
+  menu: state.system.menu,
+});
+type P = {
+  menu: MenuOption[];
+};
+
+export default connect(mapStateToProp)(RainfewLayout);

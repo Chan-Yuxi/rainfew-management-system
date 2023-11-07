@@ -19,9 +19,12 @@ export interface RouteOption {
   // @example Home/index
   //          System/User/index
   //          ...
+  index?: true;
   path: string;
-  elementPath: string;
+  elementPath?: string;
   children?: RouteOption[];
+  redirect?: string;
+  meta?: unknown;
 }
 
 export interface MenuOption extends RouteOption {
