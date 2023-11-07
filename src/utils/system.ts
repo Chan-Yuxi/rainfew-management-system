@@ -1,5 +1,5 @@
-import { RouteOption, MenuOption } from "@/@types";
-import { MenuProps } from "antd";
+import type { RouteOption, MenuOption } from "@/@types";
+import type { MenuProps } from "antd";
 
 function error() {
   throw new Error(
@@ -19,11 +19,13 @@ function appendSeparator(str: string) {
 /**
  * If there are children attributes, there are three situations
  * 1. as a real route with sub routes: Generate Route
- * 2. as a container (without path): push(...)
+ * 2. as a container (without path)
  * 3. as a label (without elementPath) (requires processing prefix)
  * 4. as a label (without path and elementPath)
+ * 
  * If the elementPath attribute exists, there is a situation where
  * 1. as a real route
+ * 
  * Otherwise, there will be an error
  *
  * @param option config
@@ -95,6 +97,10 @@ function extractItems(option: MenuOption[]): NonNullable<MenuProps["items"]> {
  * @param menuOption config
  * @returns [dynamicRoutes, menuItems]
  */
-export function resolveMenuOption(menuOption: MenuOption[]) {
+function resolveMenuOption(menuOption: MenuOption[]) {
   return [extractRoutes(menuOption), extractItems(menuOption)] as const;
 }
+
+export default {
+  resolveMenuOption,
+};
