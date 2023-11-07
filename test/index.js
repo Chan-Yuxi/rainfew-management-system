@@ -1,85 +1,70 @@
-function extractRoutes(option, prefix = "") {
-  const error = (o) => {
-    throw new Error(
-      "failed to resolve menu config: incorrect configuration format" + o
-    );
-  };
+function extractItems(options) {
+  return options.map((o) => {
+    const item = {};
 
-  const routes = [];
-  option.forEach((o) => {
-    if (o.children) {
-      if (o.elementPath) {
-        routes.push(generateRoute(o, prefix));
-      } else {
-        routes.push(
-          ...extractRoutes(
-            o.children,
-            o.path ? prefix + appendSeparator(o.path) : prefix
-          )
-        );
-      }
-    } else {
-      if (o.path && o.elementPath) {
-        routes.push(generateRoute(o, prefix));
-      } else {
-        error(o);
-      }
+    if (o.label) {
+      item.label = o.label;
     }
+    if (o.type) {
+      item.type = o.type;
+    }
+    if (o.path) {
+      item.key = o.path;
+    }
+    if (o.children) {
+      item.children = extractItems(o.children);
+    }
+
+    return item;
   });
-
-  // console.log("extract Route: ", routes);
-  return routes;
-}
-
-function generateRoute(o, prefix) {
-  const route = {};
-  if (o.index) {
-    route.index = true;
-  }
-  if (o.path) {
-    route.path = prefix + appendSeparator(o.path);
-  }
-  route.elementPath = o.elementPath;
-  if (o.children) {
-    route.children = extractRoutes(o.children);
-  }
-  return route;
-}
-
-function appendSeparator(str) {
-  return str.startsWith("/") ? str : "/" + str;
 }
 
 console.dir(
-  extractRoutes([
+  extractItems([
     {
       path: "/home",
+      label: "Home",
+      key: "home",
       elementPath: "Home/index",
+      children: [{}],
     },
     {
-      path: "/layout",
+      path: "/setting",
+      key: "setting",
+      label: "Setting",
       children: [
         {
-          path: "/setting",
-          elementPath: "Component/Setting/index",
-        },
-      ],
-    },
-    {
-      path: "account",
-      elementPath: "/Layout/index",
-      children: [
-        {
+          type: "group",
+          label: "mine",
           children: [
             {
-              path: "/hello",
-              elementPath: "Hello/index",
+              path: "profile",
+              label: "profile",
+              key: "profile",
+              elementPath: "Setting/profile",
+            },
+            {
+              path: "/account",
+              label: "account",
+              key: "account",
+              elementPath: "Setting/account",
             },
           ],
         },
         {
-          path: "/username",
-          elementPath: "Account/Username/index",
+          type: "divider",
+        },
+        {
+          type: "group",
+          label: "other",
+          children: [
+            {
+              path: "system",
+              label: "system",
+              key: "system",
+              elementPath: "Setting/system",
+            },
+          ],
         },
       ],
     },

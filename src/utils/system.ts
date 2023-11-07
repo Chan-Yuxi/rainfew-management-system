@@ -17,25 +17,27 @@ function appendSeparator(str: string) {
 }
 
 /**
- * If there are children attributes, there are three situations
- * 1. as a real route with sub routes: Generate Route
+ * If there are children attributes, there are four situations
+ *
+ * 1. as a real route with sub routes, then generate route
  * 2. as a container (without path)
- * 3. as a label (without elementPath) (requires processing prefix)
+ * 3. as a label (without elementPath, requires processing prefix)
  * 4. as a label (without path and elementPath)
- * 
+ *
  * If the elementPath attribute exists, there is a situation where
+ *
  * 1. as a real route
- * 
+ *
  * Otherwise, there will be an error
  *
- * @param option config
+ * @param options config
  * @param prefix string
  * @returns dynamicRoutes
  */
-function extractRoutes(option: MenuOption[], prefix = "") {
+function extractRoutes(options: MenuOption[], prefix = "") {
   const routes: RouteOption[] = [];
 
-  option.forEach((o) => {
+  options.forEach((o) => {
     if (o.children) {
       if (o.elementPath) {
         routes.push(generateRoute(o, prefix));
@@ -81,12 +83,28 @@ function generateRoute(o: MenuOption, prefix: string) {
 
 /**
  *
- * @param option config
+ * @param options config
  * @returns menuItems
  */
-function extractItems(option: MenuOption[]): NonNullable<MenuProps["items"]> {
-  console.log(option);
-  return [];
+function extractItems(options: MenuOption[]) {
+  return options.map((o) => {
+    const item: Record<keyof any, any> = {};
+
+    if (o.label) {
+      item.label = o.label;
+    }
+    if (o.type) {
+      item.type = o.type;
+    }
+    if (o.path) {
+      item.key = appendSeparator(o.path);
+    }
+    if (o.children) {
+      item.children = extractItems(o.children);
+    }
+
+    return item;
+  }) as NonNullable<MenuProps["items"]>;
 }
 
 /**
@@ -94,11 +112,11 @@ function extractItems(option: MenuOption[]): NonNullable<MenuProps["items"]> {
  * extract and generate dynamic routing and Antd menu configuration
  * information
  *
- * @param menuOption config
+ * @param menuOptions config
  * @returns [dynamicRoutes, menuItems]
  */
-function resolveMenuOption(menuOption: MenuOption[]) {
-  return [extractRoutes(menuOption), extractItems(menuOption)] as const;
+function resolveMenuOption(menuOptions: MenuOption[]) {
+  return [extractRoutes(menuOptions), extractItems(menuOptions)] as const;
 }
 
 export default {
