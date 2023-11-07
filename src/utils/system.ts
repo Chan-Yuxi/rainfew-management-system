@@ -9,6 +9,7 @@ function error() {
 
 /**
  * When a string does not start with `/`, add `/` to its beginning and return
+ *
  * @param str string
  * @returns string with `/`
  */
@@ -83,7 +84,7 @@ function generateRoute(o: MenuOption, prefix: string) {
 
 /**
  * Map commonly used menu configuration properties for Antd and return
- * 
+ *
  * @param options config
  * @returns menuItems
  */
@@ -109,9 +110,8 @@ function extractItems(options: MenuOption[]) {
 }
 
 /**
- * Analyze the path configuration information returned by the backend,
- * extract and generate dynamic routing and Antd menu configuration
- * information
+ * Analyze the path configuration information returned by the backend, extract
+ * and generate dynamic routing and Antd menu configuration information
  *
  * @param menuOptions config
  * @returns [dynamicRoutes, menuItems]
