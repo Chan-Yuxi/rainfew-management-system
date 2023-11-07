@@ -82,7 +82,8 @@ function generateRoute(o: MenuOption, prefix: string) {
 }
 
 /**
- *
+ * Map commonly used menu configuration properties for Antd and return
+ * 
  * @param options config
  * @returns menuItems
  */
