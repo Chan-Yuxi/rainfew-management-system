@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "./components/Logo";
 import { Layout, Menu, MenuProps } from "antd";
 import { connect } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { RootState } from "@/store";
 
@@ -10,9 +10,13 @@ const { Header, Content, Sider } = Layout;
 
 const RainfewLayout: React.FC<P> = ({ menu }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleMenuClick: MenuProps["onClick"] = (event) => {
-    navigate(event.keyPath.reduceRight((p, c) => p + c));
+    const path = event.keyPath.reduceRight((p, c) => p + c);
+    if (path !== location.pathname) {
+      navigate(path);
+    }
   };
 
   return (

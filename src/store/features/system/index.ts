@@ -29,7 +29,6 @@ const systemSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(logged.fulfilled, (state, { payload }) => {
-      console.log(payload);
       if (payload) {
         const [dynamicRoutes, menu] = payload;
         state.dynamicRoutes.length = 0;
