@@ -1,3 +1,4 @@
+import { MenuProps } from "antd";
 import { Method, AxiosHeaders, AxiosRequestConfig } from "axios";
 
 // Store Types
@@ -10,7 +11,7 @@ export interface UserState {
 
 export interface SystemState {
   auth: boolean;
-  menu: MenuOption[];
+  menu: NonNullable<MenuProps["items"]>;
   dynamicRoutes: RouteOption[];
 }
 

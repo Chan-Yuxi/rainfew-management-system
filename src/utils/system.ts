@@ -1,6 +1,8 @@
 import type { RouteOption, MenuOption } from "@/@types";
 import type { MenuProps } from "antd";
 
+import { nanoid } from "@reduxjs/toolkit";
+
 function error() {
   throw new Error(
     "failed to resolve menu config: incorrect configuration format"
@@ -54,7 +56,9 @@ function extractRoutes(options: MenuOption[], prefix = "") {
       if (o.path && o.elementPath) {
         routes.push(generateRoute(o, prefix));
       } else {
-        error();
+        if (o.type !== "divider") {
+          error();
+        }
       }
     }
   });
@@ -71,12 +75,15 @@ function generateRoute(o: MenuOption, prefix: string) {
   if (o.index) {
     route.index = true;
   }
-  route.elementPath = o.elementPath;
   if (o.path) {
     route.path = prefix + appendSeparator(o.path);
   }
+  route.elementPath = o.elementPath;
   if (o.children) {
     route.children = extractRoutes(o.children);
+  }
+  if (o.meta) {
+    route.meta = o.meta;
   }
 
   return route as RouteOption;
@@ -100,6 +107,8 @@ function extractItems(options: MenuOption[]) {
     }
     if (o.path) {
       item.key = appendSeparator(o.path);
+    } else {
+      item.key = `temp:${nanoid()}`;
     }
     if (o.children) {
       item.children = extractItems(o.children);
@@ -117,7 +126,10 @@ function extractItems(options: MenuOption[]) {
  * @returns [dynamicRoutes, menuItems]
  */
 function resolveMenuOption(menuOptions: MenuOption[]) {
-  return [extractRoutes(menuOptions), extractItems(menuOptions)] as const;
+  return [
+    extractRoutes(menuOptions),
+    extractItems(/* exclude the layout */ menuOptions[0].children!),
+  ] as const;
 }
 
 export default {

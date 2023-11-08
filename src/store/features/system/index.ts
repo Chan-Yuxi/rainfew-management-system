@@ -1,15 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { SystemState } from "@/@types";
-
 import { getMenus } from "@/api/system";
-import { extractDynamicRoutes } from "@/utils/system";
+
+import SystemUtils from "@/utils/system";
 
 export const logged = createAsyncThunk("system/logged", async () => {
-  const menu = await getMenus();
-  return {
-    dynamicRoutes: extractDynamicRoutes(menu),
-    menu,
-  };
+  const menuOptions = await getMenus();
+  if (menuOptions) {
+    return SystemUtils.resolveMenuOption(menuOptions);
+  }
 });
 
 const initialState: SystemState = {
@@ -30,12 +29,13 @@ const systemSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(logged.fulfilled, (state, { payload }) => {
-      const { menu, dynamicRoutes } = payload;
-      if (menu) {
-        state.menu.length = 0;
+      console.log(payload);
+      if (payload) {
+        const [dynamicRoutes, menu] = payload;
         state.dynamicRoutes.length = 0;
-        state.menu.push(...menu);
-        state.dynamicRoutes.push(...dynamicRoutes);
+        state.dynamicRoutes = dynamicRoutes;
+        state.menu.length = 0;
+        state.menu = menu;
         state.auth = true;
       }
     });

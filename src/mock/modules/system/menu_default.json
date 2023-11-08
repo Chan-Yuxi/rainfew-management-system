@@ -1,46 +1,46 @@
 [
   {
-    "path": "/home",
-    "label": "Home",
-    "key": "home",
-    "elementPath": "Home/index",
-    "children": [{}]
-  },
-  {
-    "path": "/setting",
-    "key": "setting",
-    "label": "Setting",
+    "path": "/",
+    "elementPath": "@layout",
     "children": [
       {
-        "type": "group",
-        "label": "mine",
+        "path": "/home",
+        "label": "Home",
+        "elementPath": "Home/index"
+      },
+      {
+        "path": "/setting",
+        "label": "Setting",
         "children": [
           {
-            "path": "profile",
-            "label": "profile",
-            "key": "profile",
-            "elementPath": "Setting/profile"
+            "type": "group",
+            "label": "mine",
+            "children": [
+              {
+                "path": "profile",
+                "label": "profile",
+                "elementPath": "Setting/profile"
+              },
+              {
+                "path": "/account",
+                "label": "account",
+                "elementPath": "Setting/account"
+              }
+            ]
           },
           {
-            "path": "/account",
-            "label": "account",
-            "key": "account",
-            "elementPath": "Setting/account"
-          }
-        ]
-      },
-      {
-        "type": "divider"
-      },
-      {
-        "type": "group",
-        "label": "other",
-        "children": [
+            "type": "divider"
+          },
           {
-            "path": "system",
-            "label": "system",
-            "key": "system",
-            "elementPath": "Setting/system"
+            "type": "group",
+            "label": "other",
+            "children": [
+              {
+                "path": "system",
+                "label": "system",
+                "elementPath": "Setting/system"
+              }
+            ]
           }
         ]
       }

@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 
 import { RootState } from "@/store";
-import { MenuOption } from "@/@types";
 
 const { Header, Content, Sider } = Layout;
 
@@ -13,8 +12,7 @@ const RainfewLayout: React.FC<P> = ({ menu }) => {
   const navigate = useNavigate();
 
   const handleMenuClick: MenuProps["onClick"] = (event) => {
-    const path = "/" + event.keyPath.reduceRight((p, c) => `${p}/${c}`);
-    navigate(path);
+    navigate(event.keyPath.reduceRight((p, c) => p + c));
   };
 
   return (
@@ -33,7 +31,6 @@ const RainfewLayout: React.FC<P> = ({ menu }) => {
         </Sider>
         <Layout className="p-6">
           <Content className="p-6 bg-white rounded">
-            {/* entry to pages */}
             <Outlet />
           </Content>
         </Layout>
@@ -46,7 +43,7 @@ const mapStateToProp = (state: RootState) => ({
   menu: state.system.menu,
 });
 type P = {
-  menu: MenuOption[];
+  menu: MenuProps["items"];
 };
 
 export default connect(mapStateToProp)(RainfewLayout);

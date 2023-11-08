@@ -22,11 +22,8 @@ const Login: React.FC<MapDispatchProps> = ({ recordUser, logged }) => {
         recordUser(user);
         // change the system slice in redux to trigger updates to the Router component
         // thereby dynamically loading the route
-        console.log("aaa");
         logged();
-        console.log("bbb");
-        // navigate(Constant.INDEX_PATH);
-        setTimeout(() => navigate(Constant.INDEX_PATH), 1);
+        setTimeout(() => navigate(Constant.INDEX_PATH), 1000);
       }
     });
   };
