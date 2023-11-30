@@ -16,7 +16,8 @@ function error() {
  * @returns string with `/`
  */
 function appendSeparator(str: string) {
-  return str.startsWith("/") ? str : "/" + str;
+  // return str.startsWith("/") ? str : "/" + str;
+  return str;
 }
 
 /**
@@ -132,6 +133,19 @@ function resolveMenuOption(menuOptions: MenuOption[]) {
   ] as const;
 }
 
+/**
+ *
+ * @param pathname
+ */
+function getOpenKeys(pathname?: string): string[] {
+  if (!pathname) {
+    return [];
+  }
+  console.log(pathname.split("/"));
+  return [];
+}
+
 export default {
   resolveMenuOption,
+  getOpenKeys,
 };

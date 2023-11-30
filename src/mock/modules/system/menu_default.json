@@ -6,7 +6,49 @@
       {
         "path": "/home",
         "label": "Home",
+        "index": true,
         "elementPath": "Home/index"
+      },
+      {
+        "path": "/form",
+        "label": "Form",
+        "index": true,
+        "elementPath": "Form/index",
+        "children": [
+          {
+            "path": "table",
+            "label": "Table",
+            "elementPath": "Form/Table"
+          },
+          {
+            "path": "button",
+            "label": "Button",
+            "elementPath": "Form/Button"
+          },
+          {
+            "path": "radio",
+            "label": "Radio",
+            "elementPath": "Form/Radio"
+          }
+        ]
+      },
+      {
+        "path": "/permission",
+        "label": "Permission",
+        "index": true,
+        "elementPath": "Permission/index"
+      },
+      {
+        "path": "/notification",
+        "label": "Notification",
+        "index": true,
+        "elementPath": "Notification/index"
+      },
+      {
+        "path": "/dict",
+        "label": "Dict",
+        "index": true,
+        "elementPath": "Dict/index"
       },
       {
         "path": "/setting",
@@ -17,7 +59,7 @@
             "label": "mine",
             "children": [
               {
-                "path": "profile",
+                "path": "/profile",
                 "label": "profile",
                 "elementPath": "Setting/profile"
               },
@@ -36,7 +78,7 @@
             "label": "other",
             "children": [
               {
-                "path": "system",
+                "path": "/system",
                 "label": "system",
                 "elementPath": "Setting/system"
               }

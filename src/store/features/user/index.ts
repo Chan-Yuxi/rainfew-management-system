@@ -6,7 +6,11 @@ import { UserState } from "@/@types";
 const initialState: UserState = {
   username: "",
   nickname: "",
+  email: "",
+  status: "",
+  description: "",
   token: "",
+  roles: [],
   permissions: [],
 };
 

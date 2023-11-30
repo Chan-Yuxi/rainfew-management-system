@@ -23,7 +23,7 @@ const Login: React.FC<MapDispatchProps> = ({ recordUser, logged }) => {
         // change the system slice in redux to trigger updates to the Router component
         // thereby dynamically loading the route
         logged();
-        setTimeout(() => navigate(Constant.INDEX_PATH), 1000);
+        setTimeout(() => navigate(Constant.INDEX_PATH), 100);
       }
     });
   };
@@ -38,7 +38,7 @@ const Login: React.FC<MapDispatchProps> = ({ recordUser, logged }) => {
           <Form.Item<LoginField> name="password">
             <Input.Password placeholder="type password" />
           </Form.Item>
-          <Button htmlType="submit" block>
+          <Button type="primary" htmlType="submit" block>
             Submit
           </Button>
         </Form>

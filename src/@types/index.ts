@@ -5,7 +5,11 @@ import { Method, AxiosHeaders, AxiosRequestConfig } from "axios";
 export interface UserState {
   username: string;
   nickname: string;
+  status: string;
+  email: string;
+  description: string;
   token: string;
+  roles: string[];
   permissions: string[];
 }
 

@@ -7,42 +7,33 @@ import React, { useState } from "react";
 import Logo from "./components/Logo";
 import Profile from "./components/Profile";
 
-import { Layout, Menu, Space, Avatar, Breadcrumb, Popover } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Layout, Menu, Breadcrumb } from "antd";
 
 import { connect } from "react-redux";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const { Header, Content, Sider } = Layout;
-const items = [
-  {
-    title: "Home",
-  },
-  {
-    title: <a href="">Application Center</a>,
-  },
-  {
-    title: <a href="">Application List</a>,
-  },
-  {
-    title: "An Application",
-  },
-];
 
-const RainfewLayout: React.FC<P> = ({ menu, user }) => {
+const RainfewLayout: React.FC<P> = ({ menu }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const [selectKeys, setSelectKeys] = useState(["/home"]);
-
-  const { nickname } = user;
+  const [breadItems, setBreadItems] = useState([{ title: "home" }]);
 
   const handleMenuClick: MenuProps["onClick"] = (event) => {
     const { keyPath } = event;
-    const path = keyPath.reduceRight((p, c) => p + c);
+    const path = keyPath.reduceRight(
+      (p, c) => p + (c.startsWith("/") ? c : "/" + c)
+    );
 
     if (path !== location.pathname) {
       setSelectKeys(keyPath);
+      setBreadItems(
+        keyPath.reverse().map((p) => ({
+          title: p.startsWith("/") ? p.substring(1) : p,
+        }))
+      );
       navigate(path);
     }
   };
@@ -51,12 +42,9 @@ const RainfewLayout: React.FC<P> = ({ menu, user }) => {
     <Layout className="h-screen">
       <Header className="flex items-center px-7">
         <Logo />
-        <Space size={16} className="ms-auto">
-          <span className="text-white font-bold">{nickname}</span>
-          {/* <Popover placement="leftBottom" content={<Profile />}> */}
-          <Avatar size={32} icon={<UserOutlined />} />
-          {/* </Popover> */}
-        </Space>
+        <div className="ms-auto">
+          <Profile />
+        </div>
       </Header>
       <Layout>
         <Sider width={250}>
@@ -70,7 +58,7 @@ const RainfewLayout: React.FC<P> = ({ menu, user }) => {
         </Sider>
         <Layout className="px-4">
           <div className="bg-white rounded px-6 py-2 my-4">
-            <Breadcrumb items={items} />
+            <Breadcrumb items={breadItems} />
           </div>
           <Content className="bg-white rounded p-6 mb-4">
             <Outlet />

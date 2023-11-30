@@ -2,6 +2,8 @@ import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { requestBefore, responseSuccess, responseFailure } from "./optimized";
 import { RequestConfig, Result } from "@/@types";
 
+import nProgress from "nprogress";
+
 class Request {
   instance: AxiosInstance;
   constructor(config: AxiosRequestConfig) {
@@ -10,6 +12,7 @@ class Request {
   }
 
   request<T = Result["data"]>(config: RequestConfig): Promise<T | undefined> {
+    nProgress.start();
     return new Promise((resolve, reject) => {
       this.instance
         .request<Result>(config)
@@ -27,6 +30,9 @@ class Request {
             return;
           }
           reject(error);
+        })
+        .finally(() => {
+          nProgress.done();
         });
     });
   }

@@ -1,0 +1,8 @@
+.title-deco {
+  font-weight: bold;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  color: white;
+  background-color: rgb(86, 124, 240);
+}
