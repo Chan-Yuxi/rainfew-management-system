@@ -4,5 +4,24 @@
   padding: 0.5rem 1rem;
   margin-bottom: 1rem;
   color: white;
-  background-color: rgb(86, 124, 240);
+  background-color: #3b82f6;
+}
+
+.login-ball-deco {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.ball-1 {
+  width: 300px;
+  height: 300px;
+  background-color: rgba(0, 0, 0, 0.01);
+  transform: translate(-125px, -125px);
+}
+
+.ball-2 {
+  width: 150px;
+  height: 150px;
+  background-color: rgba(0, 0, 0, 0.02);
+  transform: translate(125px, 125px);
 }

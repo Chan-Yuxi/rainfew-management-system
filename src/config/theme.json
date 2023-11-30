@@ -1,1 +1,10 @@
-{}
+{
+  "components": {
+    "Menu": {
+      "itemHeight": 48,
+      "itemBorderRadius": 0,
+      "itemMarginBlock": 0,
+      "itemMarginInline": 0
+    }
+  }
+}

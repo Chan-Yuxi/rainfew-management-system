@@ -30,6 +30,9 @@ const Login: React.FC<MapDispatchProps> = ({ recordUser, logged }) => {
 
   return (
     <div className="h-screen flex justify-center items-center bg-stone-100 relative">
+      <div className="login-ball-deco ball-1"></div>
+      <div className="login-ball-deco ball-2"></div>
+
       <Card title="Login">
         <Form onFinish={handleLogin}>
           <Form.Item<LoginField> name="username">
